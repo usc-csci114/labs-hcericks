@@ -26,12 +26,16 @@ private:
 template <typename T>
 ArrayList<T>::ArrayList()
 {
-	
+	data = new T[4];
+	m_capacity = 4;
+	m_size = 0;
 }
 
 template <typename T>
 void ArrayList<T>::append(T v)
 {
+	data[m_size] = v;
+	m_size += 1;
 
 }
 
@@ -39,6 +43,7 @@ template <typename T>
 void ArrayList<T>::insert(size_t idx, T v)
 {
 	
+
 }
 
 template <typename T>
