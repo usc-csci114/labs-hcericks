@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <stdexcept>
+
 
 #include "bmplib.h"
 #include "drawing.h"
@@ -75,22 +77,35 @@ ColorPixel ColorImage::getPixel (uint32_t x, uint32_t y)
 		return data[y][x];
 	}
 
-	throw std::range_error("bad size on getPixel");
+	throw std::range_error ("bad size on getPixel()");
 	
-
-
 }
 
 void ColorImage::render(string filename)
 {
-	// add
+	size_t ydim = data.size();
+	size_t xdim = data[0].size();
+
+	uint8_t*** image = new uint8_t**[ydim];
+	for (int i = 0; i < ydim; i++)
+	{
+		image[i] = new uint8_t*[xdim];
+
+		for (int j = 0; j < xdim; j++)
+		{
+			image[i][j] = new uint8_t[3];
+			image[i][j][R] = data[i][j].red;
+			image[i][j][G] = data[i][j].green;
+			image[i][j][B] = data[i][j].blue;
+		}
+
+	}
+	writeRGBBMP(filename.c_str(), image, ydim, xdim);
 }
 
-/*vector< vector<ColorPixel> > ColorImage::data
-{
 
-}
-*/
+
+/*
 
 Drawing::Drawing () 
 {
@@ -112,24 +127,11 @@ void Drawing::write(string filename)
 	
 }
 
-ColorImage Drawing::image
-{
-	
-}
 
-vector<Line> Drawing::lines
-{
-	
-}
+*/
 
 
 
-
-
-
-
-
-};
 
 
 
