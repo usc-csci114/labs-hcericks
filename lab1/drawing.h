@@ -47,3 +47,11 @@ class Drawing {
 
 
 #endif
+
+
+//wright calls render
+//draw will go through vector of lines --> give to line drawing algorithim
+// vector will give you back points --> set pixel to get the color
+// render you call within write function
+
+// dont use constructor initialization list, inside constructor create ColorImage image = ColorImage(with dimensions from above)

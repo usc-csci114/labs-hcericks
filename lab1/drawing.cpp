@@ -2,10 +2,15 @@
 #include <cmath>
 #include <vector>
 #include <stdexcept>
+#include <string>
+#include <sstream>
+#include <fstream>
 
 
 #include "bmplib.h"
 #include "drawing.h"
+
+
 
 
 //implement your classes in this file
@@ -51,6 +56,19 @@ ColorImage::ColorImage (uint32_t xdim, uint32_t ydim)
     {
         data[i].resize(xdim);
     }
+
+	//ColorImage test (xdim, ydim);
+	ColorPixel white = {255, 255, 255};
+	for (int i = 0; i < ydim; i++)
+	{
+		for (int j = 0; j < xdim; j++)
+		{
+			setPixel(white, j, i);
+		}
+	}
+
+
+
 }
 
 
@@ -59,11 +77,14 @@ void ColorImage::setPixel (ColorPixel p, uint32_t x, uint32_t y)
 	uint32_t ysize = data.size();
 	uint32_t xsize = data[0].size();
 
+	ColorPixel white = {255, 255, 255};
+	data[y][x] = white;
+
 	if (x < xsize && y < ysize)
 	{
 		data[y][x] = p;
 	}
-
+	
 }
 
 
@@ -98,37 +119,81 @@ void ColorImage::render(string filename)
 			image[i][j][G] = data[i][j].green;
 			image[i][j][B] = data[i][j].blue;
 		}
+		
 
 	}
 	writeRGBBMP(filename.c_str(), image, ydim, xdim);
 }
 
 
+Drawing::Drawing () : image(0,0) {}
 
-/*
-
-Drawing::Drawing () 
-{
-
-}
 
 void Drawing::parse(string filename)
-{	
+{
+	uint32_t xdim; 
+	uint32_t ydim;
+	string line;
 
+
+	std::ifstream file(filename);
+
+
+	getline(file, line);
+	stringstream ss(line);
+	ss >> xdim >> ydim;
+
+	image = ColorImage(xdim,ydim);
+
+	while (getline(file, line)) 
+	{
+		stringstream ss(line);
+		Point start, end;
+		ColorPixel c_point;
+		
+		uint32_t r,g,b;
+		ss >> start.x >> start.y >> end.x >> end.y >> r >> g >> b;
+
+		c_point.red = r; c_point.green = g; c_point.blue = b;
+		Line line_object;
+		line_object.start = start;
+		line_object.end = end;
+		line_object.c = c_point;
+
+		lines.push_back(line_object);
+	}
 }
+
+
 
 void Drawing::draw()
 {
-	
+	for (int i = 0; i < lines.size() ; i++) 
+	{	
+		vector<Point> plot_lines = plotLine(lines[i].start, lines[i].end); 
+		for (int p = 0; p < plot_lines.size(); p++)
+		{
+			//image = ColorImage(xdim,ydim);
+			//ColorImage(uint32_t xdim, uint32_t ydim);
+
+			uint32_t x = static_cast<uint32_t>(plot_lines[p].x); 
+            uint32_t y = static_cast<uint32_t>(plot_lines[p].y);
+			ColorPixel color = lines[i].c;
+
+			image.setPixel(color, x, y);
+		}
+	}
 }
 
 void Drawing::write(string filename)
 {
-	
+	image.render("output.bmp");
 }
 
 
-*/
+
+
+
 
 
 
