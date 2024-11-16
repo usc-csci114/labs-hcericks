@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include "ArrayList.h"
+#include "LinkedList.h"
+#include <array>
 
 using namespace std;
 
@@ -19,8 +21,8 @@ void printList(List<T>& list)
 
 int main(int argc, char* argv[])
 {
-	ArrayList<int> list;
-	//or LinkedList<int> list;
+	//orArrayList<int>list;
+	LinkedList<int> list;
 	//this is an example of inheritance. We can update our code
 	//to use a different list by changing one line of code.
 	

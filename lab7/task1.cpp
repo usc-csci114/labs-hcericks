@@ -12,3 +12,5 @@ int main() {
 	save("task1.png");
 	return 0;
 }
+
+//Bug attraction is data set for exam #2
