@@ -2,6 +2,7 @@
 #include <matplot/matplot.h>
 using namespace matplot;
 
+
 int main() {
 	
 	std::vector<double> x = linspace(0, 10);
