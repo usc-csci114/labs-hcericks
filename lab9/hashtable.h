@@ -42,13 +42,13 @@ uint64_t HashTable<K,V>::hash(K key)
 template <typename K, typename V>
 void HashTable<K,V>::insert(K key, V value)
 {
-	if (( (size_ + 1) / table.resize() ) > alpha)
+	if (( (size_ + 1) / table.size() ) > alpha)
 	{
 		resize();
 	}
 	size_t idx = hash(key) % table.size();
 	table[idx][key] = value;
-	size_t ++;
+	size_ ++;
 }
 
 template <typename K, typename V>
@@ -80,20 +80,20 @@ void HashTable<K,V>::remove(K key)
 	else
 	{
 		table_idx.erase(key);
-		size_t --;
+		size_ --;
 	}
 }
 
 template <typename K, typename V>
 size_t HashTable<K,V>::size()
 {
-	return size_t;
+	return size_;
 }
 
 template <typename K, typename V>
 bool HashTable<K,V>::empty()
 {
-	if (size_t == 0) 
+	if (size_ == 0) 
 	{
 		return true;
 	}
@@ -120,7 +120,7 @@ void HashTable<K,V>::resize()
 
 		for (auto it = temp_map.begin(); it != temp_map.end(); ++it)
 		{
-			table.insert(it->first, it->second);
+			insert(it->first, it->second);
 		}
 
 	}
